@@ -1,6 +1,7 @@
 //@ts-check
 import dc from "dc";
-import * as d3 from "d3";
+import { select } from "d3-selection";
+import { scaleBand } from "d3-scale";
 
 export default class customBarChart {
   /**
@@ -22,7 +23,7 @@ export default class customBarChart {
     this.chart
       .width(768)
       .height(300)
-      .x(d3.scaleBand())
+      .x(scaleBand())
       .xUnits(dc.units.ordinal)
       .brushOn(false)
       .xAxisLabel(this.params.xAxisLabel)
@@ -57,7 +58,7 @@ export default class customBarChart {
     /**
      * @type {HTMLDivElement}
      */
-    let div = d3.select(this.params.selector).node();
+    let div = select(this.params.selector).node();
     let rect = div.getBoundingClientRect();
     this.chart.width(rect.width);
   }

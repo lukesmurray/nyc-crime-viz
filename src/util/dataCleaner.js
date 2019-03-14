@@ -1,5 +1,6 @@
+/* eslint-disable indent */
 import moment from "moment";
-import * as d3 from "d3";
+import { timeMonth } from "d3-time";
 
 /**
  * parse date and time strings to moments
@@ -120,7 +121,7 @@ export function cleanRow(row) {
   const crimeCompleted = parseCrimeCompleted(row.CRM_ATPT_CPTD_CD);
   const crimeCategory = parseCrimeCategory(row.LAW_CAT_CD);
   const borough = parseBorough(row.BORO_NM);
-  const month = from_moment ? d3.timeMonth(from_moment.toDate()) : null;
+  const month = from_moment ? timeMonth(from_moment.toDate()) : null;
   return {
     // no nulls and unique
     id: +row.CMPLNT_NUM,

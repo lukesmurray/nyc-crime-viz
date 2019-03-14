@@ -1,6 +1,9 @@
-import * as d3 from "d3";
-import * as d3sankey from "d3-sankey";
+// import * as d3sankey from "d3-sankey";
 import uid from "../util/uid";
+import { select } from "d3-selection";
+import { scaleOrdinal } from "d3-scale";
+import { schemeCategory10 } from "d3-scale-chromatic";
+import { sankey, sankeyJustify, sankeyLinkHorizontal } from "d3-sankey";
 
 /**
  * TODO
@@ -20,7 +23,7 @@ export default class customSankeyChart {
      */
     this._selector = selector;
 
-    this._svg = d3.select(this._selector).append("svg");
+    this._svg = select(this._selector).append("svg");
 
     /**
      * @type {import("../util/typedefs").CFIndex}
@@ -56,7 +59,7 @@ export default class customSankeyChart {
 
     // color generating function
     this._color = (function() {
-      const color = d3.scaleOrdinal(d3.schemeCategory10);
+      const color = scaleOrdinal(schemeCategory10);
       return name => color(name);
     })();
 
@@ -91,7 +94,7 @@ export default class customSankeyChart {
     /**
      * @type {HTMLDivElement}
      */
-    let div = d3.select(this._selector).node();
+    let div = select(this._selector).node();
     let rect = div.getBoundingClientRect();
     this.size([rect.width, rect.height]);
     this.render();
@@ -132,7 +135,7 @@ export default class customSankeyChart {
    *
    * @param {import("crossfilter2").EventType} eventType
    */
-  _onCrossFilterChange(eventType) {
+  _onCrossFilterChange() {
     this._generateSankeyData();
     this.render();
   }
@@ -202,12 +205,11 @@ export default class customSankeyChart {
 
   render() {
     if (this._sankey === null) {
-      this._sankey = d3sankey
-        .sankey()
+      this._sankey = sankey()
         .nodeId(d => d.id)
         .nodeWidth(20)
         .nodePadding(10)
-        .nodeAlign(d3sankey.sankeyJustify);
+        .nodeAlign(sankeyJustify);
     }
     const t = this._svg.transition("my_transition").duration(750);
 
@@ -255,7 +257,7 @@ export default class customSankeyChart {
             .call(enter =>
               enter
                 .transition(t)
-                .attr("d", d3sankey.sankeyLinkHorizontal())
+                .attr("d", sankeyLinkHorizontal())
                 .attr("stroke-width", d => Math.max(1, d.width))
             )
             .attr("stroke", d => d.uid)
@@ -278,7 +280,7 @@ export default class customSankeyChart {
             .call(update => {
               update
                 .transition(t)
-                .attr("d", d3sankey.sankeyLinkHorizontal())
+                .attr("d", sankeyLinkHorizontal())
                 .attr("stroke", d => d.uid)
                 .attr("stroke-width", d => Math.max(1, d.width));
             })
@@ -358,7 +360,7 @@ export default class customSankeyChart {
    * @param {d3sankey.SankeyNodeMinimal<{}, {}>} d
    */
   _mouseClickNode(d) {
-    const nodeSelection = d3.select(`#${d.uid.id}`);
+    const nodeSelection = select(`#${d.uid.id}`);
     if (nodeSelection.attr("node-clicked") == 1) {
       this._clickedNodeIds.delete(d.uid.id);
       nodeSelection.attr("node-clicked", 0);
@@ -466,7 +468,7 @@ export default class customSankeyChart {
    * @param {string} nodeId the unique id of a node
    */
   _indicateNodeSelection(nodeId) {
-    const nodeSelection = d3.select(`#${nodeId}`);
+    const nodeSelection = select(`#${nodeId}`);
     nodeSelection.attr("fill-opacity", 0.2);
     nodeSelection.attr("stroke-opacity", 1.0);
   }
@@ -477,7 +479,7 @@ export default class customSankeyChart {
    * @param {number} opacity the opacity to highlight the node with
    */
   _highlightNode(nodeId, opacity) {
-    const nodeSelection = d3.select(`#${nodeId}`);
+    const nodeSelection = select(`#${nodeId}`);
     nodeSelection.attr("fill-opacity", opacity);
     nodeSelection.attr("stroke-opacity", opacity);
   }
@@ -488,7 +490,7 @@ export default class customSankeyChart {
    * @param {number} opacity the opacity to highlight the link with
    */
   _highlightLink(linkId, opacity) {
-    const pathElement = d3.select(`#${linkId}`).node().nextSibling;
+    const pathElement = select(`#${linkId}`).node().nextSibling;
     pathElement.setAttribute("stroke-opacity", "" + opacity);
   }
 
@@ -499,7 +501,7 @@ export default class customSankeyChart {
   _getRelativesOfNodeId(id) {
     // get a reference to the node
     let d = null;
-    d3.select(`#${id}`).each(dd => (d = dd));
+    select(`#${id}`).each(dd => (d = dd));
     let idToHighlight = d.id;
 
     let traverse = [

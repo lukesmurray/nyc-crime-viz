@@ -1,6 +1,8 @@
 //@ts-check
 import dc from "dc";
-import * as d3 from "d3";
+import { scaleTime } from "d3-scale";
+import { timeMonth, timeMonths } from "d3-time";
+import { select } from "d3-selection";
 
 export default class customTimeChart {
   /**
@@ -22,9 +24,9 @@ export default class customTimeChart {
     this.chart
       .width(768)
       .height(150)
-      .x(d3.scaleTime().domain([new Date(2006, 1, 1), new Date(2017, 12, 31)]))
-      .round(d3.timeMonth.round)
-      .xUnits(d3.timeMonths)
+      .x(scaleTime().domain([new Date(2006, 1, 1), new Date(2017, 12, 31)]))
+      .round(timeMonth.round)
+      .xUnits(timeMonths)
       .xAxisLabel(this.params.xAxisLabel)
       .elasticY(true)
       .dimension(params.dimension)
@@ -54,7 +56,7 @@ export default class customTimeChart {
     /**
      * @type {HTMLDivElement}
      */
-    let div = d3.select(this.params.selector).node();
+    let div = select(this.params.selector).node();
     let rect = div.getBoundingClientRect();
     this.chart.width(rect.width);
   }

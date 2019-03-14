@@ -1,5 +1,5 @@
 import Sortable from "sortablejs";
-import * as d3 from "d3";
+import { select } from "d3-selection";
 
 export default class DimensionRows {
   /**
@@ -34,7 +34,7 @@ export default class DimensionRows {
     this.dataMap = new Map(params.data.map(d => [d.name, d.dimension]));
 
     params.data.forEach(d => {
-      d3.select(d.active ? "#activeDimensions" : "#inactiveDimensions")
+      select(d.active ? "#activeDimensions" : "#inactiveDimensions")
         .append("a")
         .attr("class", "btn")
         .attr("data-id", d.name)
@@ -69,7 +69,7 @@ export default class DimensionRows {
           console.log("from", from.el.children.length);
           return from.el.children.length > 2;
         },
-        put: function(to, from) {
+        put: function(to) {
           console.log("to", to);
           console.log("to", to.el.children.length);
           return to.el.children.length < 4;

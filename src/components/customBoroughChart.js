@@ -1,6 +1,10 @@
 //@ts-check
 import dc from "dc";
-import * as d3 from "d3";
+import { scaleSequential } from "d3-scale";
+import { interpolateYlOrBr } from "d3-scale-chromatic";
+import { extent } from "d3-array";
+import { select } from "d3-selection";
+import { geoMercator } from "d3-geo";
 
 export default class customBoroughChart {
   /**
@@ -25,7 +29,7 @@ export default class customBoroughChart {
       .height(450)
       .dimension(params.dimension)
       .group(params.group)
-      .colors(d3.scaleSequential(d3.interpolateYlOrBr))
+      .colors(scaleSequential(interpolateYlOrBr))
       .colorCalculator(d => (d ? this.chart.colors()(d) : "#ccc"))
       .projection(this._generateProjection())
       .valueAccessor(function(kv) {
@@ -40,7 +44,7 @@ export default class customBoroughChart {
 
     // add a legend
     chart.legendables = function() {
-      return chart.data().map(function(d, i) {
+      return chart.data().map(function(d) {
         return {
           name: `${d.key} - ${d.value}`,
           chart: chart,
@@ -63,16 +67,15 @@ export default class customBoroughChart {
 
     // set dynamic color domain
     this.chart.on("preRender", function(chart) {
-      chart.colorDomain(d3.extent(chart.data(), chart.valueAccessor()));
+      chart.colorDomain(extent(chart.data(), chart.valueAccessor()));
     });
     this.chart.on("preRedraw", function(chart) {
-      chart.colorDomain(d3.extent(chart.data(), chart.valueAccessor()));
+      chart.colorDomain(extent(chart.data(), chart.valueAccessor()));
     });
   }
 
   _generateProjection() {
-    return d3
-      .geoMercator()
+    return geoMercator()
       .center([-73.94, 40.7])
       .scale(40000)
       .translate([this.chart.width() / 2, this.chart.height() / 2]);
@@ -82,7 +85,7 @@ export default class customBoroughChart {
     /**
      * @type {HTMLDivElement}
      */
-    let div = d3.select(this.params.selector).node();
+    let div = select(this.params.selector).node();
     let rect = div.getBoundingClientRect();
     this.chart.width(rect.width);
     this.chart.projection(this._generateProjection());

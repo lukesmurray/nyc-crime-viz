@@ -1,6 +1,8 @@
 //@ts-check
 import dc from "dc";
-import * as d3 from "d3";
+import { scaleOrdinal } from "d3-scale";
+import { schemeYlOrBr } from "d3-scale-chromatic";
+import { select } from "d3-selection";
 
 export default class customPieChart {
   /**
@@ -22,7 +24,7 @@ export default class customPieChart {
     this.chart
       .width(768)
       .height(300)
-      .colors(d3.scaleOrdinal(d3.schemeYlOrBr[9].slice(3, 7).reverse()))
+      .colors(scaleOrdinal(schemeYlOrBr[9].slice(3, 7).reverse()))
       .dimension(this.params.dimension)
       .group(this.params.group);
   }
@@ -31,7 +33,7 @@ export default class customPieChart {
     /**
      * @type {HTMLDivElement}
      */
-    let div = d3.select(this.params.selector).node();
+    let div = select(this.params.selector).node();
     let rect = div.getBoundingClientRect();
     this.chart.innerRadius(40);
     this.chart.width(rect.width);

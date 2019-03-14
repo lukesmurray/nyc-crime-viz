@@ -1,10 +1,8 @@
 //@ts-check
-import * as d3 from "d3";
 import { cleanRow } from "./util/dataCleaner";
 import crossfilter from "crossfilter2";
 import customBarChart from "./components/customBarChart";
 import customBoroughChart from "./components/customBoroughChart";
-import _ from "lodash";
 import customTimeChart from "./components/customTimeLineChart";
 import customSankeyChart from "./components/customSankeyChart";
 import "./main.scss";
@@ -12,6 +10,9 @@ import M from "materialize-css";
 import customPieChart from "./components/customPieChart";
 import dc from "dc";
 import dimensionRows from "./components/dimensionRows";
+import { csv, json } from "d3-fetch";
+import { select } from "d3-selection";
+import { debounce } from "lodash";
 
 M.Modal.init(document.querySelector("#progressModal"), {});
 let progressModal = M.Modal.getInstance(
@@ -25,8 +26,8 @@ progressModal.open();
  */
 export let dataset = null;
 Promise.all([
-  d3.csv("/data/nypd_data_sample.csv", cleanRow),
-  d3.json("/data/boroughs.geojson")
+  csv("/data/nypd_data_sample.csv", cleanRow),
+  json("/data/boroughs.geojson")
 ]).then(function(values) {
   let data = values[0];
   let boroughJson = values[1];
@@ -222,7 +223,7 @@ Promise.all([
     sankeyChart.render();
   }
 
-  let rowManager = new dimensionRows({
+  new dimensionRows({
     data: [
       { dimension: suspectAgeDimension, name: "Suspect Age", active: true },
       { dimension: suspectRaceDimension, name: "Suspect Race", active: false },
@@ -254,9 +255,9 @@ Promise.all([
   dc.renderAll();
 
   // resize the charts when the window resizes
-  d3.select(window).on(
+  select(window).on(
     "resize",
-    _.debounce(() => {
+    debounce(() => {
       suspectRaceChart.resize();
       victimRaceChart.resize();
       suspectAgeChart.resize();
