@@ -1,0 +1,105 @@
+// Import styles here
+
+@import "./css/materialize.scss";
+@import "./css/dc.scss";
+
+body {
+  background-color: #424242;
+}
+
+// decrease spacing between thiings
+.row {
+  margin-bottom: 0px;
+}
+
+// set the height of the bar charts
+.card-barchart {
+  height: 350px;
+  background-color: #424242;
+}
+
+// set the height of the borough maps
+.card-boroughMap {
+  height: 500px;
+  background-color: #424242;
+}
+
+// set the height of the timelines
+.card-timeline {
+  height: 225px;
+  background-color: #424242;
+}
+
+.card-explanation {
+  background-color: #e2b031;
+  color: black;
+
+  .card-title {
+    font-size: 24px;
+  }
+}
+
+.card-Sankey {
+  height: 700px;
+  background-color: #424242;
+  // background-color: whitesmoke;
+
+  .sankeyChart {
+    rect {
+      cursor: pointer;
+
+      &:hover {
+        fill-opacity: 0.8;
+      }
+    }
+  }
+}
+
+// make the charts fill the cards
+.chart,
+.chart svg {
+  width: 100%;
+  height: 100%;
+
+  g > line {
+    opacity: 0.5;
+  }
+}
+
+// make axis labels white
+svg > g > text {
+  fill: $off-black;
+  fill-opacity: $text_opacity;
+}
+
+#progressModal {
+  text-align: center;
+  background-color: rgb(30, 30, 30);
+}
+
+.dragRow {
+  display: flex; /* or inline-flex */
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  &#inactiveDimensions {
+    justify-content: flex-start;
+
+    .btn {
+      background-color: lightgray;
+      color: black;
+    }
+  }
+
+  &#activeDimensions {
+    justify-content: flex-start;
+    .btn {
+      background-color: #e2b031;
+    }
+  }
+
+  .btn {
+    margin-right: 15px;
+    margin-bottom: 15px;
+  }
+}

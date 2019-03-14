@@ -1,0 +1,6 @@
+{
+  "typeAcquisition": {
+    "include": ["moment"]
+  },
+  "exclude": ["node_modules", "data", "research", "dist", "notebooks", "venv"]
+}
