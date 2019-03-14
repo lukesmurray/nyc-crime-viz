@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Viz Asgnm 3</title>
+  <link href="/app.2faeefaa3e300a3daeef82ed8028c61a.css" rel="stylesheet"></head>
+  <body>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <a class="brand-logo">NYC Crime Data</a>
+          <ul class="right hide-on-med-and-down">
+            <li><label><input type="checkbox" class="filled-in" id="filterUnknownCheckbox"/><span>Filter Unknowns</span></label></li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li><label><input type="checkbox" class="filled-in" id="setElasticY" checked="checked"/><span>Use Elastic Y</span></label></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div id="root">
+        <div id="progressModal" class="modal">
+            <div class="modal-content">
+                <h3>Loading Data</h3>
+                <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col s12 l4">
+            <div class="card card-explanation">
+              <div class="card-content">
+                <span class="card-title">NYC Crime Data</span>
+                <p>
+                  This project uses data from the <a
+                  href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">NYPD
+                  Complaint Data Historic</a> data set. The original dataset
+                  consists of 6 million rows so this site uses a uniform
+                  random sample of 100,000 rows to minimize loading time.
+                </p>
+                <p>
+                  The graphs in this project are all interactive and can be
+                  used to filter other graphs on the page. For example, if
+                  you click on a borough in the map, the bar charts on this
+                  page will transform to display only crimes which occurred
+                  in that borough. If you click the borough again the filter
+                  will go away. You can click multiple boroughs at the same
+                  time to display crimes which occurred in those boroughs.
+                </p>
+                <p>
+                  The Sankey diagram can be used to display the flows between
+                  up to four dimensions. Try pressing Filter Unknowns in the
+                  top right. You can see the Sankey diagram update and remove
+                  unknowns. Try dragging the grey labels to the yellow
+                  labels, or dragging the yellow labels around. Also try
+                  clicking on the nodes in the Sankey diagram.
+                </p>
+                <p>
+                  The technologies used for creating the charts are a mix of
+                  <a href="https://github.com/dc-js/dc.js">dc.js</a>, <a
+                  href="https://github.com/crossfilter/crossfilter">crossfilter</a>,
+                  and <a href="https://github.com/d3/d3">d3</a>.
+                </p>
+    
+              </div>
+            </div>
+          </div>
+          <div class="col s12 l8">
+            <div class="card card-boroughMap z-depth-0">
+              <div class="card-content">
+                <span class="card-title">Boroughs</span>
+                <div class="chart boroughMap" id="boroughMap"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <div class="card card-Sankey z-depth-0">
+              <div class="card-content">
+                <span class="card-title">Sankey</span>
+                <div class="dragRow" id="inactiveDimensions">
+                </div>
+                <div class="dragRow" id="activeDimensions">
+                </div>
+                <div class="chart sankeyChart" id="customSankeyChart"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 l4">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">suspect race</span>
+                <div class="chart barchart" id="suspectRace"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 l4">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">suspect age</span>
+                <div class="chart barchart" id="suspectAge"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 l4">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">suspect sex</span>
+                <div class="chart barchart" id="suspectSex"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 l4">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">victim race</span>
+                <div class="chart barchart" id="victimRace"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 l4">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">victim age</span>
+                <div class="chart barchart" id="victimAge"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 l4">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">victim sex</span>
+                <div class="chart barchart" id="victimSex"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 l6">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">Crime Category</span>
+                <div class="chart barchart" id="crimeCategory"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 l6">
+            <div class="card card-barchart z-depth-0">
+              <div class="card-content">
+                <span class="card-title">Crime Attempted vs Completed</span>
+                <div class="chart barchart" id="crimeCompleted"></div>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="row">
+          <div class="col s12">
+            <div class="card card-timeline z-depth-0">
+              <div class="card-content">
+                <span class="card-title">Crime Timeline</span>
+                <div class="chart timeline" id="crimeTimeline"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script type="text/javascript" src="/vendor.14cf98b37e84535fc3f4.js"></script><script type="text/javascript" src="/app.14cf98b37e84535fc3f4.js"></script></body>
+</html>
