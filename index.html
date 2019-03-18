@@ -10,7 +10,7 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data Viz Asgnm 3</title>
-  <link href="./app.2faeefaa3e300a3daeef82ed8028c61a.css" rel="stylesheet"></head>
+  <link href="./app.b471f207f0e8933fa817fa06958c5546.css" rel="stylesheet"></head>
   <body>
     <div class="navbar-fixed">
       <nav>
@@ -39,37 +39,90 @@
             <div class="card card-explanation">
               <div class="card-content">
                 <span class="card-title">NYC Crime Data</span>
-                <p>
-                  This project uses data from the <a
-                  href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">NYPD
-                  Complaint Data Historic</a> data set. The original dataset
-                  consists of 6 million rows so this site uses a uniform
-                  random sample of 100,000 rows to minimize loading time.
-                </p>
-                <p>
-                  The graphs in this project are all interactive and can be
-                  used to filter other graphs on the page. For example, if
-                  you click on a borough in the map, the bar charts on this
-                  page will transform to display only crimes which occurred
-                  in that borough. If you click the borough again the filter
-                  will go away. You can click multiple boroughs at the same
-                  time to display crimes which occurred in those boroughs.
-                </p>
-                <p>
-                  The Sankey diagram can be used to display the flows between
-                  up to four dimensions. Try pressing Filter Unknowns in the
-                  top right. You can see the Sankey diagram update and remove
-                  unknowns. Try dragging the grey labels to the yellow
-                  labels, or dragging the yellow labels around. Also try
-                  clicking on the nodes in the Sankey diagram.
-                </p>
-                <p>
-                  The technologies used for creating the charts are a mix of
-                  <a href="https://github.com/dc-js/dc.js">dc.js</a>, <a
-                  href="https://github.com/crossfilter/crossfilter">crossfilter</a>,
-                  and <a href="https://github.com/d3/d3">d3</a>.
-                </p>
-    
+              </div>
+              <div class="card-tabs">
+                  <ul class="tabs tabs-fixed-width"  id="writingTabs">
+                    <li class="tab"><a class="active" href="#instructions">Instructions</a></li>
+                    <li class="tab"><a  href="#writeup">Write Up</a></li>
+                  </ul>
+              </div>
+              <div class="card-content">
+                <div id="instructions">
+                  <p>
+                    This project uses data from the <a
+                    href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">NYPD
+                    Complaint Data Historic</a> data set. The original dataset
+                    consists of 6 million rows so this site uses a uniform
+                    random sample of 100,000 rows to minimize loading time.
+                  </p>
+                  <p>
+                    The graphs in this project are all interactive and can be
+                    used to filter other graphs on the page. For example, if
+                    you click on a borough in the map, the bar charts on this
+                    page will transform to display only crimes which occurred
+                    in that borough. If you click the borough again the filter
+                    will go away. You can click multiple boroughs at the same
+                    time to display crimes which occurred in those boroughs.
+                  </p>
+                  <p>
+                    The Sankey diagram can be used to display the flows between
+                    up to four dimensions. Try pressing Filter Unknowns in the
+                    top right. You can see the Sankey diagram update and remove
+                    unknowns. Try dragging the grey labels to the yellow
+                    labels, or dragging the yellow labels around. Also try
+                    clicking on the nodes in the Sankey diagram.
+                  </p>
+                  <p>
+                    The technologies used for creating the charts are a mix of
+                    <a href="https://github.com/dc-js/dc.js">dc.js</a>, <a
+                    href="https://github.com/crossfilter/crossfilter">crossfilter</a>,
+                    and <a href="https://github.com/d3/d3">d3</a>.
+                  </p>
+                </div>
+                <div id="writeup">
+                  <p>
+                    My initial design goal was to create a brushing and
+                    filtering dashboard which allows users to select subsets
+                    of the dataset by clicking on charts and hopefully find
+                    correlations in the underlying dataset. I ended up
+                    finding the really nice library <a
+                    href="https://github.com/dc-js/dc.js">dc.js</a> which
+                    makes these charts simple to create.
+                  </p>
+                  <p>
+                    After putting together a dashboard of bar charts, maps,
+                    etc. I thought filtering was working well but I wanted to
+                    put victim and race dimensions into a single chart. I
+                    started thinking about how I could visualize flows
+                    between Victim Age and Suspect Age and decided that a
+                    Sankey diagram would be a decent way to visualize these
+                    flows.
+                  </p>
+                  <p>
+                    Then it crossed my mind that these flows could be
+                    visualized for any two dimensions and potentially
+                    multiple dimensions. I decided I wanted to make an
+                    interactive Sankey diagram where the columns in the
+                    Sankey diagram represent the dimensions in the data. I
+                    also wanted users to be able to change the order of the
+                    dimensions and highlight queries to do and queries across
+                    dimensions and or queries within dimensions.
+                  </p>
+                  <p>
+                    The end result is an interactive Sankey diagram
+                    integrated into dc.js dashboard.
+                  </p>
+                  <p>
+                    The development process consisted of three stages. The
+                    first stage was getting anything to show up which ended
+                    when I had a dc.js dashboard of pie charts and bar
+                    charts. The second stage was building the Sankey Chart
+                    which involved learning d3 and manipulating the dataset
+                    to support d3-sankey's unique data structure. The last
+                    stage was making everything look pretty. Overall it 
+                    took a couple days to put everything together.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -178,5 +231,5 @@
         </div>
       </div>
     </div>
-  <script type="text/javascript" src="./vendor.14cf98b37e84535fc3f4.js"></script><script type="text/javascript" src="./app.14cf98b37e84535fc3f4.js"></script></body>
+  <script type="text/javascript" src="./vendor.879f1447401309382168.js"></script><script type="text/javascript" src="./app.879f1447401309382168.js"></script></body>
 </html>
